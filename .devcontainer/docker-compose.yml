@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+
+  dev:
+    image: thebearingedge/code-container
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: bind
+        source: ~/.ssh
+        target: /home/dev/.ssh
+      - type: bind
+        source: ~/.gitconfig
+        target: /home/dev/.gitconfig
+    ports:
+      - 3000:3000
+      - 35729:35729
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: dev
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+    ports:
+      - 5432:5432
+
+  pgweb:
+    image: sosedoff/pgweb:0.11.9
+    environment:
+      - DATABASE_URL=postgres://dev:dev@postgres/postgres?sslmode=disable
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres
+    restart: always

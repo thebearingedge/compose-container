@@ -1,0 +1,14 @@
+{
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  "service": "dev",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "thebearingedge.lfz-code"
+      ]
+    }
+  },
+  "remoteUser": "dev"
+}
